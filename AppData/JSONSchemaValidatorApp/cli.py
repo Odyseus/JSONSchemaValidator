@@ -54,21 +54,10 @@ Options:
     the data against.
 
 --data-prop=<name>
-    Name of a property found inside the file specified in <data-file>.
-    This property must contain the data to validate against a JSON schema.
-    Properties can be chained (e.g., prop0.prop1.propN).
+    Name of a property found inside the file specified in **--data-file**.
 
 --schema-prop=<name>
-    Name of a property found inside the file specified in <schema-file>.
-    This property must contain the data that will be used as a JSON schema.
-
-Commands:
-
-validate
-    Validate data found inside the **--data-file** file against a JSON schema
-    found inside the **--schema-file** file.
-    Only JSON (.json file extension) and Python (.py file extension) files
-    are supported.
+    Name of a property found inside the file specified in **--schema-file**.
 
 """.format(appname=__appname__,
            appdescription=__appdescription__,
