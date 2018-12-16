@@ -89,7 +89,7 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
         self.a = docopt_args
         self._cli_header_blacklist = [self.a["--manual"]]
 
-        super().__init__(__appname__, "UserData/logs")
+        super().__init__(__appname__)
 
         if self.a["--manual"]:
             self.action = self.display_manual_page
@@ -97,7 +97,7 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
             self.action = self.validate_schema
         elif self.a["generate"]:
             if self.a["system_executable"]:
-                self.logger.info("System executable generation...")
+                self.logger.info("**System executable generation...**")
                 self.action = self.system_executable_generation
 
     def run(self):
