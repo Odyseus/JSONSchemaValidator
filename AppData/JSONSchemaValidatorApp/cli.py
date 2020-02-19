@@ -19,6 +19,7 @@ from .__init__ import __appname__
 from .__init__ import __status__
 from .__init__ import __version__
 from .python_utils import cli_utils
+from .python_utils import exceptions
 
 root_folder = os.path.realpath(os.path.abspath(os.path.join(
     os.path.normpath(os.getcwd()))))
@@ -109,6 +110,9 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
     def validate_schema(self):
         """Execute the assigned action stored in self.action if any.
         """
+        if not app_utils.json_schema_utils.JSONSCHEMA_INSTALLED:
+            raise exceptions.MissingDependencyModule("Missing 'jsonschema' module.")
+
         app_utils.validate_schema(
             self.a["--data-file"], self.a["--schema-file"],
             data_prop=self.a["--data-prop"],
