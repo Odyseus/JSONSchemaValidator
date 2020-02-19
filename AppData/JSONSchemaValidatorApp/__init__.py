@@ -3,7 +3,7 @@
 __status__ = "Unstable"
 __appname__ = "JSON Schema Validator"
 __appdescription__ = "Utility to validate data from JSON schemas."
-__version__ = "2020-02-14 03:47:21.875"
+__version__ = "2020-02-19 12:00:13.465"
 
 if __name__ == "__main__":
     pass
