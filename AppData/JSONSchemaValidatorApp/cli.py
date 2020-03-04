@@ -109,6 +109,11 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
 
     def validate_schema(self):
         """Execute the assigned action stored in self.action if any.
+
+        Raises
+        ------
+        exceptions.MissingDependencyModule
+            Missing ``jsonschema`` module.
         """
         if not app_utils.json_schema_utils.JSONSCHEMA_INSTALLED:
             raise exceptions.MissingDependencyModule("Missing 'jsonschema' module.")

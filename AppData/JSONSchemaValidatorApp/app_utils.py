@@ -23,25 +23,51 @@ root_folder = os.path.realpath(os.path.abspath(os.path.join(
 
 
 class NonExistentFile(ExceptionWhitoutTraceBack):
-    """NonExistentFile"""
+    """NonExistentFile
+    """
 
     def __init__(self, msg):
+        """Initialization.
+
+        Parameters
+        ----------
+        msg : str
+            Message.
+        """
         super().__init__(msg)
 
 
 class InvalidFile(ExceptionWhitoutTraceBack):
-    """InvalidFile"""
+    """InvalidFile
+    """
 
     def __init__(self, file_path):
+        """Initialization.
+
+        Parameters
+        ----------
+        file_path : str
+            File path.
+        """
         msg = "Only Python and JSON files are allowed and they should be named with the proper extension.\n"
         msg += file_path
         super().__init__(msg)
 
 
 class MissingRequiredParameter(ExceptionWhitoutTraceBack):
-    """MissingRequiredParameter"""
+    """MissingRequiredParameter
+    """
 
     def __init__(self, missing_parameter, file_path):
+        """Initialization.
+
+        Parameters
+        ----------
+        missing_parameter : str
+            Parameter.
+        file_path : str
+            File path.
+        """
         msg = "It is mandatory to specify a property to get data from a Python file.\n"
         msg += "**Missing parameter: %s\n**" % missing_parameter
         msg += "**File were the property should exist:\n%s**" % file_path
@@ -49,6 +75,34 @@ class MissingRequiredParameter(ExceptionWhitoutTraceBack):
 
 
 def get_value_from_object(file_path, obj, props, logger):
+    """Get value from object.
+
+    Recursively get from ``obj`` the value of a properties defined as string in ``props``. For
+    example, if ``props`` is equal to ``prop1.prop2.prop3``, the returned value will be the
+    value of ``prop3`` that's inside the object ``prop2`` that it's inside the object ``prop1``
+    that's inside the object ``obj``.
+
+    Parameters
+    ----------
+    file_path : str
+        File path where the object ``obj`` is defined. Used for logging purposes.
+    obj : dict
+        The object from where to extract data.
+    props : str
+        The properties of ``obj`` defined as a string.
+    logger : LogSystem
+        The logger.
+
+    Returns
+    -------
+    str, dict, list, int, float
+        The value of a property.
+
+    Raises
+    ------
+    SystemExit
+        Halt execution on error.
+    """
     if isinstance(props, str):
         props = props.split(".")
     else:
@@ -72,6 +126,32 @@ def validate_schema(data_file, schema_file,
                     data_prop=None,
                     schema_prop=None,
                     logger=None):
+    """Validate JSON schema.
+
+    Parameters
+    ----------
+    data_file : str
+        The path to the file from where to get the data to validate.
+    schema_file : str
+        The path to the file containing the JSON schema/s to alidate against.
+    data_prop : None, optional
+        A property name inside an object contained inside the ``data_file``.
+    schema_prop : None, optional
+        A property name inside an object contained inside the ``schema_file``.
+    logger : None, optional
+        See :any:`LogSystem`.
+
+    Raises
+    ------
+    InvalidFile
+        Files whose extensions are not .json or .py are invalid files.
+    MissingRequiredParameter
+        A Python ``data_file`` file requires to have the ``data_prop`` declared.
+    NonExistentFile
+        The file paths declared in ``data_file`` or ``schema_file`` do not exist.
+    SystemExit
+        Halt execution on error.
+    """
     storage = {
         "instance": {
             "file": os.path.realpath(os.path.abspath(os.path.join(
